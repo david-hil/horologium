@@ -3,7 +3,6 @@ import argparse
 import sqlite3
 import os.path
 import time
-import math
 import helper
 
 parser = argparse.ArgumentParser(description="A simple time stamp clock for the command line")
@@ -32,6 +31,7 @@ def start():
         return
     cursor.execute("INSERT INTO status VALUES (?,?,?)", (time.asctime(time.localtime(time.time())), args.label, args.task))
     print("Started time measurement for {}{}.".format(args.task if args.task else "task", " [{}]".format(args.label) if args.label else ""))
+    cursor.execute
     db.commit()
 
 def status():
@@ -51,6 +51,9 @@ def stop():
     else:
         timepassed = time.time() - time.mktime(time.strptime(task[0]))
         cursor.execute("INSERT INTO history VALUES (?,?,?,?)", (task[0],task[1],task[2],timepassed))
+        db.commit()
+        cursor.execute("DELETE FROM status WHERE 1=1")
+        db.commit()
         print("You were working on {} {} for".format(task[2] if task[2] else "task", "[{}]".format(task[1]) if task[1] else "") + helper.parseTime(timepassed))
     
 
