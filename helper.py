@@ -1,4 +1,5 @@
 import math
+import time
 
 def parseTime(secspassed):
     hours = math.trunc(secspassed/3600)
@@ -11,3 +12,6 @@ def parseTime(secspassed):
 
 def parseTask(task):
     return "{} {}".format(task[2] if task[2] else "task", "[{}]".format(task[1]) if task[1] else "")
+
+def timeDaysAgo(days):
+    return time.time() - (days * 86400) 
